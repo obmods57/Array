@@ -1,45 +1,64 @@
-class Array:
+def verifier(tableau):
+    """
+    -Fonction permettante de vérifier la proportionnalité d'un tableau
+    -Prend en entré le tableau sous forme de liste
+    """
 
-    def __init__(self, tableau, tableau2):
-        self.tableau = tableau
-        self.tableau2 = tableau2
+    coefficient = tableau[1][0] / tableau[0][0]
+    proportionnalite = True
+    j = 0
 
-    def Verif(self):
-        self.coefficient = self.tableau[0] / self.tableau2[0]
-        self.proportionnel = True
+    for i in tableau[0]:
+        if i * coefficient != tableau[1][j]:
+            proportionnalite = False
 
-        for self.i in range(0, len(self.tableau)):
-            if self.tableau2[self.i] * self.coefficient != self.tableau[self.i]:
-                self.proportionnel = False
+        j += 1
 
-        if self.proportionnel is True:
-            print ("Fin, le tableau est proportionnel.\n")
-        else:
-            print ("Fin, le tableau n'est pas proportionnel.\n")
+    return proportionnalite 
 
-    def Correction(self):
-        self.coefficient = self.tableau[0] / self.tableau2[0]
-        self.tableau_correct = []
-        self.nombre_non_proportionnel = []
-        self.proportionnel = True
+def corriger(tableau):
+    """
+    -Fonction permettante de corriger un tableau non proportionnel
+    -Prend en entré le tableau sous forme de liste
+    -Renvoie le tableau corrigé
+    """
 
-        for self.i in range(0, len(self.tableau)):
-            if self.tableau2[self.i] * self.coefficient != self.tableau[self.i]:
-                self.tableau_correct.append(self.tableau[self.i] / self.coefficient)
-                self.nombre_non_proportionnel.append(self.tableau2[self.i])
-                self.proportionnel = False
-            else:
-                self.tableau_correct.append(self.tableau2[self.i])
+    for i in range(len(tableau[0])):
+        tableau[1][i] = tableau[0][i] * tableau[1][0] / tableau[0][0]
 
-        if self.proportionnel is True:
-            print ("Ce tableau est proportionnel et n'a donc pas besoin de correction.\n")
-        else:
-            print ("Nombre du haut :", self.tableau)
-            print ("Nombre du bas :", self.tableau_correct)
+    return tableau
 
-            print ("Nombre non proportionnels, corriges :", self.nombre_non_proportionnel)
+def completer(tableau): 
+    """
+    -Fonction permettante de completer un tableau
+    -Prend en entré le tableau à compléter
+    -Renvoie le tableau complété 
+    """
 
+    coefficient = tableau[1][0] / tableau[0][0]
 
-#s = Array([1, 2, 4, 8, 16], [2, 4, 8, 17, 36])
-#s.Verif()
-#s.correction()
+    for i in range(len(tableau[0])):
+        if tableau[0][i] == "x":
+            tableau[0][i] = tableau[1][i] / coefficient 
+        elif tableau[1][i] == "x":
+            tableau[1][i] = tableau[0][i] * coefficient 
+
+    return tableau 
+
+def generer(a, b, n):
+    """
+    -Fonction permettante de générer un tableau proportionnel
+    -Prend en entré a (le premier nombre du haut), b (le premier nombre du bas), n (le nombre de collones à générer)
+    -Renvoie le tableau générer
+    """
+
+    tableau = [[a], [b]]
+    i = tableau[0][0] + 1 
+
+    for j in range(n):
+        tableau[0].append(i)
+        tableau[1].append(tableau[0][j + 1] * b / a)
+
+        i += 1 
+
+    return tableau
